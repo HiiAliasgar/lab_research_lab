@@ -1,0 +1,21 @@
+[project]
+name = "agent-research-lab"
+version = "0.1.0"
+description = "A LangGraph-powered multi-agent research workflow."
+requires-python = ">=3.11"
+dependencies = [
+    "fastapi>=0.115",
+    "httpx>=0.27",
+    "langchain-openai>=0.3",
+    "langgraph>=0.4",
+    "pydantic-settings>=2.7",
+    "uvicorn[standard]>=0.34",
+]
+
+[project.optional-dependencies]
+dev = ["pytest>=8.3", "pytest-asyncio>=0.25"]
+
+[tool.pytest.ini_options]
+asyncio_mode = "auto"
+testpaths = ["tests"]
+

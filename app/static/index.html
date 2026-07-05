@@ -1,0 +1,274 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Agent Research Lab</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=Manrope:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <style>
+    :root { 
+      --ink:#101713; --muted:#68736c; --cream:#f3f2ec; --paper:#fffefa; --lime:#d6ff72; 
+      --green:#153f31; --line:#d7dbd4; --orange:#ff774d; 
+      --gradient-1: linear-gradient(135deg, #d6ff72 0%, #a8ff00 100%);
+      --gradient-2: linear-gradient(135deg, #153f31 0%, #0f3828 100%);
+    }
+    * { box-sizing:border-box; }
+    body { 
+      margin:0; background:var(--cream); color:var(--ink); font-family:Manrope,sans-serif; 
+      background-image:radial-gradient(#cfd3cc 0.7px,transparent .7px); background-size:18px 18px;
+      scroll-behavior: smooth;
+    }
+    header { 
+      border-bottom:2px solid var(--line); padding:24px 5vw; display:flex; justify-content:space-between; 
+      align-items:center; background:rgba(243,242,236,.95); backdrop-filter:blur(20px); 
+      position:sticky; top:0; z-index:5; box-shadow:0 8px 32px rgba(16,23,19,.06);
+    }
+    .brand { 
+      font-weight:800; letter-spacing:-.04em; font-size:22px; display:flex; align-items:center;
+      background: var(--gradient-2); -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    .brand span { 
+      display:inline-block; width:14px; height:14px; margin-right:11px; background:var(--lime); 
+      border:3px solid var(--ink); border-radius:50%; box-shadow: 0 0 20px rgba(214,255,114,.3);
+      animation: float 3s ease-in-out infinite;
+    }
+    @keyframes float { 0%, 100% { transform: translateY(0px); } 50% { transform: translateY(-3px); } }
+    .status { font:11px "DM Mono"; color:var(--muted); letter-spacing:.05em; }
+    main { max-width:1240px; margin:auto; padding:80px 32px; }
+    .hero { 
+      display:grid; grid-template-columns:minmax(0,1.6fr) minmax(260px,.65fr); gap:80px; 
+      align-items:end; margin-bottom:60px;
+    }
+    .eyebrow { 
+      font:600 11px "DM Mono"; text-transform:uppercase; letter-spacing:.15em; 
+      color:var(--green); background: rgba(21,63,49,.08); padding:8px 12px; width:fit-content;
+      border-radius:4px;
+    }
+    h1 { 
+      max-width:850px; font-size:clamp(52px,8vw,92px); line-height:.96; letter-spacing:-.07em; 
+      margin:24px 0 32px; font-weight:800; background: var(--gradient-2); 
+      -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    .lede { 
+      max-width:620px; font-size:18px; color:var(--muted); line-height:1.7; 
+      font-weight:500; margin:0;
+    }
+    .brief { 
+      background:rgba(21,63,49,.05); border-left:4px solid var(--green); padding:28px 32px; 
+      margin-bottom:0; border-radius:6px; position:relative; overflow:hidden;
+    }
+    .brief::before { 
+      content:""; position:absolute; top:-50%; right:-20%; width:300px; height:300px;
+      background: radial-gradient(circle, rgba(214,255,114,.1) 0%, transparent 70%);
+    }
+    .brief strong { 
+      display:block; font-size:36px; letter-spacing:-.05em; color:var(--ink); margin-bottom:8px;
+    }
+    .brief span { 
+      color:var(--muted); font-size:14px; line-height:1.6; display:block;
+    }
+    .composer { 
+      margin-top:64px; background:var(--paper); border:2px solid var(--ink); 
+      border-radius:12px; box-shadow:12px 12px 0 rgba(214,255,114,.2), 0 8px 24px rgba(16,23,19,.1); 
+      padding:12px; display:flex; gap:12px; transition:.3s ease;
+    }
+    .composer:hover { 
+      box-shadow:14px 14px 0 rgba(214,255,114,.3), 0 12px 32px rgba(16,23,19,.15);
+      transform:translate(-2px, -2px);
+    }
+    .composer:focus-within { 
+      box-shadow:16px 16px 0 rgba(214,255,114,.4), 0 16px 40px rgba(16,23,19,.2);
+      transform:translate(-3px, -3px);
+    }
+    input { 
+      flex:1; min-width:0; border:0; background:transparent; padding:18px 20px; 
+      font:600 16px Manrope; outline:0; color:var(--ink);
+    }
+    input::placeholder { color:var(--muted); opacity:.7; }
+    button { 
+      border:0; background: var(--gradient-2); color:white; font:700 15px Manrope; 
+      padding:0 32px; cursor:pointer; white-space:nowrap; border-radius:8px;
+      transition:.3s ease; position:relative; overflow:hidden;
+      box-shadow: 0 4px 12px rgba(21,63,49,.2);
+    }
+    button::before {
+      content:""; position:absolute; top:50%; left:50%; width:0; height:0;
+      background:rgba(255,255,255,.3); border-radius:50%;
+      transform:translate(-50%, -50%);
+      transition:.6s;
+    }
+    button:hover::before {
+      width:300px; height:300px;
+    }
+    button:hover { 
+      box-shadow: 0 6px 20px rgba(21,63,49,.35);
+      transform:translateY(-2px);
+    }
+    button:disabled { 
+      opacity:.6; cursor:wait; box-shadow: 0 4px 12px rgba(21,63,49,.1);
+    }
+    .agents { 
+      display:grid; grid-template-columns:repeat(4,1fr); margin-top:80px; 
+      gap:16px; background:transparent;
+    }
+    .agent { 
+      padding:32px; border:2px solid var(--line); border-radius:12px;
+      transition:.3s ease; position:relative; overflow:hidden; 
+      background:var(--paper); box-shadow:0 4px 12px rgba(16,23,19,.05);
+      cursor:pointer;
+    }
+    .agent::before {
+      content:""; position:absolute; inset:0; background: var(--gradient-1);
+      opacity:0; transition:.3s; z-index:0;
+    }
+    .agent:hover { 
+      transform:translateY(-6px);
+      box-shadow:0 12px 32px rgba(16,23,19,.12);
+      border-color:var(--green);
+    }
+    .agent.active { 
+      background: var(--gradient-2); color:white; border-color:var(--green);
+      box-shadow: 0 12px 32px rgba(21,63,49,.25);
+      transform:scale(1.02);
+    }
+    .agent.active p,.agent.active .num { color:#b9c9c0; }
+    .agent.done::after { 
+      content:"✓"; position:absolute; right:20px; top:20px; 
+      background:var(--lime); color:var(--ink); width:32px; height:32px; 
+      display:grid; place-items:center; border-radius:50%; font-size:14px; font-weight:800;
+      box-shadow: 0 4px 12px rgba(214,255,114,.4);
+      animation: scaleIn .3s cubic-bezier(.34,1.56,.64,1);
+    }
+    @keyframes scaleIn { from { transform:scale(0); } to { transform:scale(1); } }
+    .agent:last-child { }
+    .num { font:13px "DM Mono"; color:var(--muted); font-weight:600; }
+    .agent h3 { margin:32px 0 8px; font-size:16px; font-weight:700; position:relative; z-index:1; }
+    .agent p { margin:0; color:var(--muted); font-size:13px; line-height:1.6; position:relative; z-index:1; }
+    .agent.active h3 { color:white; }
+    #progress { 
+      display:none; margin:60px 0 0; padding:28px 32px; background: var(--gradient-2); 
+      color:white; align-items:center; justify-content:space-between; 
+      border-radius:12px; box-shadow:0 8px 32px rgba(21,63,49,.25);
+      animation: slideUp .4s ease-out;
+    }
+    @keyframes slideUp { from { opacity:0; transform:translateY(20px); } to { opacity:1; transform:translateY(0); } }
+    .elapsed { font:12px "DM Mono"; color:#bdcbc4; font-weight:600; }
+    .pulse { 
+      display:inline-block; width:10px; height:10px; border-radius:50%; 
+      background:var(--lime); margin-right:10px; animation:pulse 1.5s ease-in-out infinite;
+      box-shadow: 0 0 10px rgba(214,255,114,.5);
+    }
+    @keyframes pulse { 0% { transform:scale(1); opacity:1; } 50% { transform:scale(1.3); opacity:.5; } 100% { transform:scale(1); opacity:1; } }
+    #result { 
+      display:none; margin-top:80px; grid-template-columns:minmax(0,2.2fr) minmax(280px,1fr); 
+      gap:48px; animation: slideUp .4s ease-out;
+    }
+    article { 
+      background:var(--paper); border:2px solid var(--line); border-radius:12px;
+      padding:clamp(32px,5vw,72px); line-height:1.8; 
+      box-shadow:0 12px 48px rgba(24,44,34,.1); position:relative;
+    }
+    article h1 { 
+      font-size:44px; line-height:1.1; margin-top:0; 
+      background: var(--gradient-2); -webkit-background-clip: text; 
+      -webkit-text-fill-color: transparent; background-clip: text;
+    }
+    article h2 { 
+      margin-top:48px; line-height:1.2; font-size:24px; font-weight:700;
+      color:var(--green);
+    }
+    article p { margin:20px 0; }
+    article a { color:var(--green); text-decoration:none; font-weight:600; transition:.2s; }
+    article a:hover { text-decoration:underline; }
+    aside { position:sticky; top:120px; align-self:start; }
+    aside h3 { 
+      font-size:12px; text-transform:uppercase; letter-spacing:.1em; 
+      display:flex; justify-content:space-between; font-weight:700; margin-bottom:20px;
+      color:var(--green);
+    }
+    .source { 
+      padding:16px 0; border-top:1px solid var(--line); font-size:13px;
+      transition:.2s;
+    }
+    .source:hover a { color:var(--orange); }
+    .source a { 
+      color:var(--green); text-decoration:none; font-weight:700; display:block;
+      margin-bottom:6px; line-height:1.4;
+    }
+    .tag { 
+      font:9px "DM Mono"; text-transform:uppercase; padding:4px 8px; 
+      background:var(--lime); margin-left:0; color:var(--ink); border-radius:4px;
+      display:inline-block; font-weight:700; letter-spacing:.05em;
+    }
+    .report-meta { display:flex; gap:12px; flex-wrap:wrap; margin-bottom:20px; }
+    .pill { 
+      font:12px "DM Mono"; border:1px solid var(--line); padding:10px 14px; 
+      background:rgba(21,63,49,.04); border-radius:6px; font-weight:600;
+      color:var(--green);
+    }
+    .error { color:#c73a1f; font-weight:600; font-size:16px; }
+    @media(max-width:750px) { 
+      .hero { grid-template-columns:1fr; gap:40px; } 
+      .brief { display:block; } 
+      .agents { grid-template-columns:1fr 1fr; gap:12px; }
+      #result { grid-template-columns:1fr; gap:32px; } 
+      .composer { flex-direction:column; } 
+      button { padding:16px; width:100%; } 
+      main { padding:60px 20px; }
+      aside { position:static; }
+    }
+  </style>
+</head>
+<body>
+  <header><div class="brand"><span></span>Agent Research Lab</div><div class="status">LANGGRAPH / MULTI-AGENT</div></header>
+  <main>
+    <section class="hero">
+      <div><div class="eyebrow">Evidence, orchestrated</div>
+      <h1>Complex questions deserve a research team.</h1>
+      <p class="lede">One prompt activates specialized agents that plan, search, cross-reference academic evidence, write, and review a publication-ready brief.</p></div>
+      <div class="brief"><strong>4 agents.</strong><span>One defensible answer.<br>Current web + academic evidence.</span></div>
+    </section>
+    <section>
+      <form class="composer" id="form">
+        <input id="topic" minlength="8" required value="Research the latest trends in solid-state batteries" aria-label="Research topic">
+        <button id="submit">Launch research</button>
+      </form>
+    </section>
+    <section class="agents">
+      <div class="agent"><div class="num">01</div><h3>Research Lead</h3><p>Decomposes the question and maps the investigation.</p></div>
+      <div class="agent"><div class="num">02</div><h3>Web Scout</h3><p>Finds current developments and industry signals.</p></div>
+      <div class="agent"><div class="num">03</div><h3>Academic Analyst</h3><p>Cross-references scholarly work through OpenAlex.</p></div>
+      <div class="agent"><div class="num">04</div><h3>Editor</h3><p>Synthesizes evidence and checks citation quality.</p></div>
+    </section>
+    <div id="progress"><div><span class="pulse"></span><span id="progressText">Agents are building the research plan…</span></div><span class="elapsed" id="elapsed">00:00</span></div>
+    <section id="result"><div><div class="report-meta" id="meta"></div><article id="report"></article></div><aside><h3>Evidence ledger <span id="sourceCount">0</span></h3><div id="sources"></div></aside></section>
+  </main>
+  <script>
+    const form = document.querySelector("#form"), button = document.querySelector("#submit");
+    const progress = document.querySelector("#progress"), result = document.querySelector("#result");
+    const messages = ["Agents are building the research plan…", "Web Scout is scanning current sources…", "Academic Analyst is cross-referencing papers…", "Editor is synthesizing and reviewing the report…"];
+    form.addEventListener("submit", async (event) => {
+      event.preventDefault(); button.disabled = true; button.textContent = "Team working…"; result.style.display = "none"; progress.style.display = "flex";
+      document.querySelectorAll(".agent").forEach(a => a.classList.remove("active","done"));
+      let i = 0, seconds = 0; document.querySelectorAll(".agent")[0].classList.add("active");
+      const timer = setInterval(() => { seconds++; document.querySelector("#elapsed").textContent = `${String(Math.floor(seconds/60)).padStart(2,"0")}:${String(seconds%60).padStart(2,"0")}`; if (seconds % 4 === 0 && i < messages.length - 1) { const agents = document.querySelectorAll(".agent"); agents[i].classList.remove("active"); agents[i].classList.add("done"); i++; agents[i].classList.add("active"); document.querySelector("#progressText").textContent = messages[i]; } }, 1000);
+      try {
+        const response = await fetch("/api/research", {method:"POST", headers:{"Content-Type":"application/json"}, body:JSON.stringify({topic:document.querySelector("#topic").value})});
+        const data = await response.json(); if (!response.ok) throw new Error(data.detail || "Research failed");
+        document.querySelector("#report").innerHTML = marked.parse(data.report);
+        document.querySelector("#sources").innerHTML = data.sources.map(s => `<div class="source"><a href="${s.url}" target="_blank" rel="noopener">${s.title}</a><span class="tag">${s.source_type}</span><div>${s.year || ""}</div></div>`).join("");
+        document.querySelector("#sourceCount").textContent = data.sources.length;
+        document.querySelector("#meta").innerHTML = `<span class="pill">${data.sources.length} sources reviewed</span><span class="pill">${data.revision_count ? "Editor revised" : "Quality checked"}</span>`;
+        document.querySelectorAll(".agent").forEach(a => { a.classList.remove("active"); a.classList.add("done"); });
+        result.style.display = "grid";
+      } catch (error) {
+        result.style.display = "grid"; document.querySelector("#report").innerHTML = `<p class="error">${error.message}</p>`; document.querySelector("#sources").innerHTML = "";
+      } finally { clearInterval(timer); progress.style.display = "none"; button.disabled = false; button.textContent = "Launch research"; }
+    });
+  </script>
+</body>
+</html>
