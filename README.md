@@ -1,111 +1,93 @@
-# 🔬 Agent Research Lab
+# Agent Research Lab
 
-A sophisticated **multi-agent research system** built with LangGraph that transforms complex questions into comprehensive, citation-backed research reports. The system orchestrates specialized AI agents that collaborate seamlessly to gather, analyze, and synthesize evidence from both web and academic sources.
+A multi-agent research application built with FastAPI and LangGraph. It explores how a research question can be decomposed, investigated across web and academic sources, and assembled into a cited report.
 
-## 🎯 Overview
+## Research workflow
 
-Agent Research Lab employs an intelligent four-agent team:
-- **Research Lead** - Decomposes complex questions into actionable research tasks
-- **Web Scout** - Searches current web sources for latest developments and industry signals
-- **Academic Analyst** - Cross-references scholarly papers through OpenAlex API
-- **Editor** - Synthesizes all evidence into a publication-ready report with quality review
+The application organizes work into four responsibilities:
 
-## ✨ Features
+1. **Research Lead** — breaks a broad question into focused research tasks.
+2. **Web Scout** — gathers current information from web search results.
+3. **Academic Analyst** — searches scholarly metadata through OpenAlex.
+4. **Editor** — synthesizes findings, checks the draft and can request a revision.
 
-- 🚀 **Multi-Agent Orchestration** - Parallel evidence collection for efficiency
-- 📚 **Dual Source Integration** - Combines web and academic research seamlessly
-- 📖 **Citation Management** - Automatic source tracking and reference handling
-- 🔄 **Quality Review** - Built-in revision loop for accuracy assurance
-- 🎨 **Modern UI** - Beautiful, responsive frontend with smooth animations
-- ⚡ **Real-time Updates** - Live progress tracking during research
-- 🔌 **REST API** - Easy integration with `/docs` endpoint documentation
+The workflow includes a review loop so the report can be revised before completion.
 
-## 🚀 Quick Start
+## Main capabilities
 
-### Prerequisites
-- Python 3.10+
-- OpenAI API key
-- uv package manager
+- Multi-step research orchestration.
+- Web and academic-source discovery.
+- Source tracking and citation handling.
+- Report synthesis and review.
+- Browser-based interface with progress updates.
+- FastAPI endpoints and interactive API documentation.
 
-### Installation & Run
+## Technology
+
+| Layer | Tools |
+|---|---|
+| API | FastAPI, Uvicorn |
+| Orchestration | LangGraph |
+| Model provider | OpenAI API |
+| Web discovery | DuckDuckGo HTML results |
+| Academic discovery | OpenAlex API |
+| Interface | HTML, CSS, JavaScript |
+| Dependency management | uv |
+
+## Run locally
+
+Requirements: Python 3.10+, uv, and an OpenAI API key.
 
 ```powershell
-cd D:\code\agent_research_lab
+git clone https://github.com/HiiAliasgar/lab_research_lab.git
+cd lab_research_lab
 Copy-Item .env.example .env
-# Add your OpenAI API key to .env
+# Add OPENAI_API_KEY to .env
 uv sync --extra dev
 uv run uvicorn app.main:app --reload
 ```
 
-Open **http://127.0.0.1:8000** in your browser to access the web interface.
+Open the application at `http://127.0.0.1:8000`. API documentation is available at `http://127.0.0.1:8000/docs`.
 
-API documentation available at **http://127.0.0.1:8000/docs** (Swagger UI)
-
-## 📊 Agent Workflow
+## Workflow sketch
 
 ```text
-START -> planner -> parallel evidence collectors -> synthesizer -> reviewer
-                                                            ^          |
-                                                            \-- revise-/
-                                                                       |
-                                                                      END
+Question
+   |
+Research Lead
+   |
++-----------------------+
+| Web Scout             |
+| Academic Analyst      |
++-----------------------+
+   |
+Evidence synthesis
+   |
+Editor / review
+   |       ^
+   +-- revise
+   |
+Research report
 ```
 
-The search tools use DuckDuckGo's HTML results and the public OpenAlex API, so
-no search-service API key is required. The LLM requires `OPENAI_API_KEY`.
+## Project layout
 
-## 🛠 Tech Stack
-
-- **Framework**: FastAPI + Uvicorn
-- **AI Orchestration**: LangGraph
-- **LLM**: OpenAI GPT
-- **Web Search**: DuckDuckGo API
-- **Academic Search**: OpenAlex API
-- **Frontend**: HTML5 + CSS3 + Vanilla JavaScript
-- **Dependency Management**: uv
-
-## 📁 Project Structure
-
-```
-agent_research_lab/
+```text
+lab_research_lab/
 ├── app/
-│   ├── main.py          # FastAPI application
-│   ├── models.py        # Data models
-│   ├── workflow.py      # LangGraph workflow definition
-│   ├── tools.py         # Search and utility tools
-│   ├── config.py        # Configuration
+│   ├── main.py
+│   ├── models.py
+│   ├── workflow.py
+│   ├── tools.py
+│   ├── config.py
 │   └── static/
-│       └── index.html   # Modern responsive UI
-├── tests/               # Test suite
-├── .env.example         # Environment template
-├── pyproject.toml       # Project configuration
-└── README.md           # This file
+├── tests/
+├── .env.example
+└── pyproject.toml
 ```
 
-## 🎨 UI Features
+## Notes
 
-- **Responsive Design** - Works seamlessly on desktop and mobile
-- **Real-time Progress** - Watch agents work with animated status indicators
-- **Evidence Ledger** - Complete citation history with source types
-- **Markdown Rendering** - Beautiful formatted reports
-- **Smooth Animations** - Modern interactions and transitions
+Research output depends on source availability and model quality. Citations should be checked against the original sources before relying on a generated report.
 
-## 📝 API Endpoints
-
-- `POST /api/research` - Submit a research topic and get a report
-- `GET /docs` - Interactive Swagger documentation
-- `GET /` - Serve the web interface
-
-## 🤝 Contributing
-
-Feel free to fork, modify, and submit pull requests. This is a research project showcasing multi-agent AI orchestration patterns.
-
-## 📄 License
-
-Open source - feel free to use and modify
-
-## 🔗 References
-
-- [LangGraph Documentation](https://langchain-ai.github.io/langgraph/)
-- [OpenAI API](https://platform.openai.com/docs)
-- [OpenAlex API](https://openalex.org/)
+[View source code](https://github.com/HiiAliasgar/lab_research_lab)
